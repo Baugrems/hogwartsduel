@@ -50,27 +50,31 @@ SPELL_DAMAGE = {
 }
 
 def play(playerOne, playerTwo):
-    print("\nPlayer 1 has", playerOne["hp"], "health and Player 2 has", playerTwo["hp"], "health currently.")
-    spell1 = input("\nWhat spell is used by Player 1? Type First-Year, Second-Year, etc: \n")
-    spell2 = input("\nWhat spell is used by Player 2? Type First-Year, Second-Year, etc: \n")
-    print("\nPlayer 1 is using a spell from", spell1, "and Player 2 is using a spell from", spell2)
-    print("\nPlayer 1 has a", CAST_CHANCE[spell1] + (playerOne["cntrl"] * 2), "percent and Player 2 has a", CAST_CHANCE[spell2] + (playerTwo["cntrl"] * 2), "percent chance to cast their spell.")
+    print("\n",playerOne["name"], "has", playerOne["hp"], "health and", playerTwo["name"], "has", playerTwo["hp"], "health currently.")
+    print("\nWhat spell does", playerOne["name"], "use? Type First-Year, Second-Year, etc: \n")
+    spell1 = input()
+    print("\nWhat spell does", playerTwo["name"], "use? Type First-Year, Second-Year, etc: \n")
+    spell2 = input()
+    print("\n",playerOne["name"], "is using a spell from", spell1, "and",playerTwo["name"], "is using a spell from", spell2)
+    print("\n",playerOne["name"], "has a", CAST_CHANCE[spell1] + (playerOne["cntrl"] * 2), "percent and",playerTwo["name"], "has a", CAST_CHANCE[spell2] + (playerTwo["cntrl"] * 2), "percent chance to cast their spell.")
     if (CAST_CHANCE[spell1] + (playerOne["cntrl"] * 2)) >= random.randint(1,101):
-        print("\nPlayer 1 casts their spell with success.")
+        print("\n",playerOne["name"], "casts their spell with success.")
         cast1 = True
     else:
-        print("\nPlayer 1 fails to cast their spell correctly.")
+        print("\n",playerOne["name"], "fails to cast their spell correctly.")
         cast1 = False
     if (CAST_CHANCE[spell2] + (playerTwo["cntrl"] * 2)) >= random.randint(1,101):
-        print("\nPlayer 2 casts their spell with success.")
+        print("\n",playerTwo["name"], "casts their spell with success.")
         cast2 = True
     else:
-        print("\nPlayer 2 fails to cast their spell correctly.")
+        print("\n",playerTwo["name"], "fails to cast their spell correctly.")
         cast2 = False
 
     # get stance of each player
-    stance1 = input("\nStance used by player 1? Type agg, agg+, neutral, def, or def+: \n")
-    stance2 = input("\nStance used by player 2? Type agg, agg+, neutral, def, or def+: \n")
+    print("\nStance used by ",playerOne["name"], "? Type agg, agg+, neutral, def, or def+: \n")
+    stance1 = input()
+    print("\nStance used by ",playerTwo["name"], "? Type agg, agg+, neutral, def, or def+: \n")
+    stance2 = input()
 
     #calculate chance to hit and roll to see if it hits
     hit1 = int((HIT_CHANCE[spell1] + (playerOne["acc"] - playerTwo["agi"])))
@@ -94,34 +98,34 @@ def play(playerOne, playerTwo):
     hit1_success = False
     hit2_success = False
     if cast1 and cast2:
-        print("\nPlayer 1 has a", hit1, "percent and Player 2 has a", hit2, "percent chance to hit with their spell.")
+        print("\n",playerOne["name"], " has a", hit1, "percent and ",playerTwo["name"], " has a", hit2, "percent chance to hit with their spell.")
         if hit1 >= random.randint(1,101):
-            print("\nPlayer 1 hits their opponent.")
+            print("\n",playerOne["name"], " hits their opponent.")
             hit1_success = True
         else:
-            print("\nPlayer 1 fails to hit the opponent.")
+            print("\n",playerOne["name"], " fails to hit the opponent.")
             hit1_success = False
         if hit2 >= random.randint(1,101):
-            print("\nPlayer 2 hits their opponent.")
+            print("\n",playerTwo["name"], " hits their opponent.")
             hit2_success = True
         else:
-            print("\nPlayer 2 fails to hit the opponent.")
+            print("\n",playerTwo["name"], " fails to hit the opponent.")
             hit2_success = False
     elif cast1 and not cast2:
-        print("\nPlayer 1 has a", hit1, "percent and Player 2 failed to cast their spell.")
+        print("\n",playerOne["name"], " has a", hit1, "percent and ",playerTwo["name"], " failed to cast their spell.")
         if hit1 >= random.randint(1,101):
-            print("\nPlayer 1 hits their opponent.")
+            print("\n",playerOne["name"], " hits their opponent.")
             hit1_success = True
         else:
-            print("\nPlayer 1 fails to hit the opponent.")
+            print("\n",playerOne["name"], " fails to hit the opponent.")
             hit1_success = False
     elif not cast1 and cast2:
-        print("\nPlayer 1 failed to cast and Player 2 has a", hit2, "percent chance to hit with their spell.")
+        print("\n",playerOne["name"], " failed to cast and ",playerTwo["name"], " has a", hit2, "percent chance to hit with their spell.")
         if hit2 >= random.randint(1,101):
-            print("\nPlayer 2 hits their opponent.")
+            print("\n",playerTwo["name"], " hits their opponent.")
             hit2_success = True
         else:
-            print("\nPlayer 2 fails to hit the opponent.")
+            print("\n",playerTwo["name"], " fails to hit the opponent.")
             hit2_success = False
     elif not cast1 and not cast2:
         print("\nBoth players failed to cast.")
@@ -142,10 +146,10 @@ def play(playerOne, playerTwo):
         dmg2 = int(dmg2 * 1.3)
     if hit1_success:
         playerTwo["hp"] = playerTwo["hp"] - dmg1
-        print("\nPlayer 2 is hit for", dmg1, "damage and is down to", playerTwo["hp"], "hp.")
+        print("\n",playerTwo["name"], " is hit for", dmg1, "damage and is down to", playerTwo["hp"], "hp.")
     if hit2_success:
         playerOne["hp"] = playerOne["hp"] - dmg2
-        print("\nPlayer 1 is hit for", dmg2, "damage and is down to", playerOne["hp"], "hp.")
+        print("\n",playerOne["name"], " is hit for", dmg2, "damage and is down to", playerOne["hp"], "hp.")
     if (playerOne["hp"] >= 0) and (playerTwo["hp"] >= 0):
         input("Hit enter to start next round\n")
         play(playerOne, playerTwo)
